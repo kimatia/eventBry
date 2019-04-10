@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 31, 2019 at 02:35 PM
+-- Generation Time: Apr 09, 2019 at 11:54 PM
 -- Server version: 5.7.18
 -- PHP Version: 7.1.4
 
@@ -43,6 +43,7 @@ CREATE TABLE `tbl_allocate` (
   `commentStatus` int(11) NOT NULL DEFAULT '0',
   `comment` varchar(255) NOT NULL DEFAULT 'No Comment',
   `bookPerson` varchar(255) NOT NULL DEFAULT 'Not Booked',
+  `bookSeat` varchar(255) NOT NULL DEFAULT 'Non',
   `bookStatus` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -50,14 +51,14 @@ CREATE TABLE `tbl_allocate` (
 -- Dumping data for table `tbl_allocate`
 --
 
-INSERT INTO `tbl_allocate` (`id`, `eventname`, `numberofpeople`, `eventDate`, `venueId`, `roomtype`, `roomname`, `roomprice`, `postid`, `postUser`, `allocateId`, `commentStatus`, `comment`, `bookPerson`, `bookStatus`) VALUES
-(27, 'kimatia', '4', '2018-07-17', '8', 'VIP', 'ryuyh', '334', '34', 'davy', 0, 0, 'No Comment', 'Not Booked', 0),
-(28, 'hhh', '6', '2018-07-13', '7', 'Normal', 'wsxcf', '456', '34', 'davy', 21, 0, 'No Comment', 'Not Booked', 0),
-(29, 'yuu', '6', '2018-07-10', '7', 'Normal', 'wsxcf', '456', '34', 'davy', 21, 1, 'ok', 'kims', 1),
-(30, 'tttt', '6', '2018-07-20', '7', 'Normal', 'wsxcf', '456', '34', 'davy', 21, 1, 'nice', 'brianvillah', 1),
-(31, 'hhh', '3', '2018-07-09', '6', 'Regular', 'qwerty', '2500', '34', 'davy', 22, 1, 'ttttt', 'kims', 1),
-(32, 'kims', '3', '2018-07-12', '9', 'Regular', 'rty', '1200', '34', 'davy', 23, 1, 'hh', 'kims', 1),
-(33, 'churchil live', '300', '2018-07-04', '10', 'Regular', 'mobasa sports club', '20000', '34', 'davy', 24, 1, 'eagerly waiting', 'kims', 1);
+INSERT INTO `tbl_allocate` (`id`, `eventname`, `numberofpeople`, `eventDate`, `venueId`, `roomtype`, `roomname`, `roomprice`, `postid`, `postUser`, `allocateId`, `commentStatus`, `comment`, `bookPerson`, `bookSeat`, `bookStatus`) VALUES
+(27, 'kimatia', '4', '2018-07-17', '8', 'VIP', 'ryuyh', '334', '34', 'davy', 0, 1, 'hhhh', 'kims', 'Non', 1),
+(28, 'hhh', '6', '2018-07-13', '7', 'Normal', 'wsxcf', '456', '34', 'davy', 21, 1, 'good', 'kims', '13', 1),
+(29, 'yuu', '6', '2018-07-10', '7', 'Normal', 'wsxcf', '456', '34', 'davy', 21, 1, 'jjhjh', 'kims', '0', 1),
+(30, 'tttt', '6', '2018-07-20', '7', 'Normal', 'wsxcf', '456', '34', 'davy', 21, 1, 'hjhjj', 'kims', 'A8', 1),
+(31, 'hhh', '3', '2018-07-09', '6', 'Regular', 'qwerty', '2500', '34', 'davy', 22, 1, 'sddd', 'kims', '27', 1),
+(32, 'kims', '3', '2018-07-12', '9', 'Regular', 'rty', '1200', '34', 'davy', 23, 1, 'nice', 'kims', '15', 1),
+(33, 'churchil live', '300', '2018-07-04', '10', 'Regular', 'mobasa sports club', '20000', '34', 'davy', 24, 1, 'eagerly waiting', 'kims', 'Non', 1);
 
 -- --------------------------------------------------------
 
@@ -92,6 +93,74 @@ INSERT INTO `tbl_bookreserve` (`id`, `postId`, `venueId`, `roomType`, `roomName`
 (22, 34, 6, 'Regular', 'qwerty', '2500', '23', '2018-07-03', '2018-07-20', '4', 1, 'davy', 1, '0'),
 (23, 34, 9, 'Regular', 'rty', '1200', '34', '2018-07-03', '2018-07-12', '4', 1, 'davy', 1, 'kims'),
 (24, 34, 10, 'Regular', 'mobasa sports club', '20000', '34', '2018-12-01', '2018-07-11', '4 hours', 0, 'davy', 1, 'churchil live');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_seats`
+--
+
+CREATE TABLE `tbl_seats` (
+  `id` int(255) NOT NULL,
+  `row` varchar(255) NOT NULL,
+  `seat` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT '0',
+  `date` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_seats`
+--
+
+INSERT INTO `tbl_seats` (`id`, `row`, `seat`, `status`, `date`) VALUES
+(1, 'A', 'A1', '1', '515665'),
+(2, 'A', 'A2', '0', '515665'),
+(3, 'A', 'A3', '0', '515665'),
+(4, 'A', 'A4', '0', '515665'),
+(5, 'A', 'A5', '1', '515665'),
+(6, 'A', 'A6', '0', '515665'),
+(7, 'B', 'B1', '0', '515665'),
+(8, 'B', 'B2', '0', '515665'),
+(9, 'B', 'B3', '2', '515665'),
+(10, 'B', 'B4', '0', '515665'),
+(11, 'B', 'B5', '0', '515665'),
+(12, 'B', 'B6', '1', '515665'),
+(13, 'C', 'C1', '0', '515665'),
+(14, 'C', 'C2', '0', '515665'),
+(15, 'C', 'C3', '1', '515665'),
+(16, 'C', 'C4', '0', '515665'),
+(17, 'C', 'C5', '0', '515665'),
+(18, 'C', 'C6', '2', '515665'),
+(19, 'D', 'D1', '0', '515665'),
+(20, 'D', 'D2', '0', '515665'),
+(21, 'D', 'D3', '1', '515665'),
+(22, 'D', 'D4', '0', '515665'),
+(23, 'D', 'D5', '1', '515665'),
+(24, 'D', 'D6', '0', '515665'),
+(25, 'E', 'E1', '0', '515665'),
+(26, 'E', 'E2', '0', '515665'),
+(27, 'E', 'E3', '1', '515665'),
+(28, 'E', 'E4', '0', '515665'),
+(29, 'E', 'E5', '0', '515665'),
+(30, 'E', 'E6', '0', '515665'),
+(31, 'F', 'F1', '0', '515665'),
+(32, 'F', 'F2', '0', '515665'),
+(33, 'F', 'F3', '0', '515665'),
+(34, 'F', 'F4', '0', '515665'),
+(35, 'F', 'F5', '0', '515665'),
+(36, 'F', 'F6', '0', '515665'),
+(37, 'A', 'A7', '0', '515665'),
+(38, 'A', 'A8', '1', '515665'),
+(39, 'B', 'B7', '0', '515665'),
+(40, 'B', 'B8', '0', '515665'),
+(41, 'C', 'C7', '0', '515665'),
+(42, 'C', 'C8', '0', '515665'),
+(43, 'D', 'D7', '0', '515665'),
+(44, 'D', 'D8', '0', '515665'),
+(45, 'E', 'E7', '0', '515665'),
+(46, 'E', 'E8', '0', '515665'),
+(47, 'F', 'F7', '0', '515665'),
+(48, 'F', 'F8', '0', '515665');
 
 -- --------------------------------------------------------
 
@@ -166,6 +235,12 @@ ALTER TABLE `tbl_bookreserve`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_seats`
+--
+ALTER TABLE `tbl_seats`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -192,6 +267,11 @@ ALTER TABLE `tbl_allocate`
 --
 ALTER TABLE `tbl_bookreserve`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT for table `tbl_seats`
+--
+ALTER TABLE `tbl_seats`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --

@@ -8,20 +8,29 @@ if (!isset($_SESSION['userSession'])) {
 
 $query = $DBcon->query("SELECT * FROM tbl_users WHERE user_id=".$_SESSION['userSession']);
 $userRow=$query->fetch_array();
-$DBcon->close();
-if(isset($_POST['btnsave'])){
-  if(isset($_POST['btnsave'])){
 
+$DBcon->close();
+  if(isset($_POST['btnsave'])){
+$stmt_select = $DB_con->prepare('SELECT seat FROM tbl_seats WHERE id =:uid');
+$stmt_select->execute(array(':uid'=>$_GET['seat_id']));
+$imgRow=$stmt_select->fetch(PDO::FETCH_ASSOC);//retursn value as associative array.
+$seatID=$imgRow['seat'];
 $idd=$_GET['book_id'];
 $commentStatus=1;
 $comment=$_POST['comment'];
 $bookPerson=$userRow['username'];
 $bookStatus=1;
-$sql = $con->prepare("UPDATE tbl_allocate SET commentStatus=?, comment=?, bookPerson=?, bookStatus=? WHERE id=?");
-  $sql->bind_param("issii",$commentStatus,$comment,$bookPerson,$bookStatus,$idd);
+$bookSeat=$seatID;
+$sql = $con->prepare("UPDATE tbl_allocate SET commentStatus=?, comment=?, bookPerson=?,bookSeat=?, bookStatus=? WHERE id=?");
+  $sql->bind_param("isssii",$commentStatus,$comment,$bookPerson,$bookSeat,$bookStatus,$idd);
   
 
             if($sql->execute()){
+  $status="1";
+  $idseat=$_GET['seat_id'];
+  $SQL = $con->prepare("UPDATE tbl_seats SET status=? WHERE id=?");
+  $SQL->bind_param("ii",$status,$idseat);
+  $SQL->execute();
                ?>
 <script type="text/javascript">
   alert('success');
@@ -36,7 +45,6 @@ $sql = $con->prepare("UPDATE tbl_allocate SET commentStatus=?, comment=?, bookPe
           <strong>Sorry!</strong>Error while inserting data
            </div>";
             }
-}
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -1,3 +1,6 @@
+
+
+
 <?php
 session_start();
 include_once 'dbconnect.php';
@@ -9,7 +12,26 @@ if (!isset($_SESSION['userSession'])) {
 $query = $DBcon->query("SELECT * FROM tbl_users WHERE user_id=".$_SESSION['userSession']);
 $userRow=$query->fetch_array();
 $DBcon->close();
+include 'DBController.php';
+$db_handle = new DBController();
+$productResult = $db_handle->runQuery("select * from tbl_allocate");
 
+if (isset($_POST["export"])) {
+    $filename = "Export_excel.xls";
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    $isPrintHeader = false;
+    if (! empty($productResult)) {
+        foreach ($productResult as $row) {
+            if (! $isPrintHeader) {
+                echo implode("\t", array_keys($row)) . "\n";
+                $isPrintHeader = true;
+            }
+            echo implode("\t", array_values($row)) . "\n";
+        }
+    }
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +92,7 @@ $DBcon->close();
                   <li><a href="#" >services</a></li>
                    <li><a href="#" >portfolio</a></li>
                   <li class="dropdown ">
-              <a href="#" class="dropdown-toggle active" data-toggle="dropdown"><?php echo "Hello Admin ".$userRow['username']; ?><b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle active" data-toggle="dropdown"><?php echo "Hello  User ".$userRow['username']; ?><b class="caret"></b></a>
                <ul class="dropdown-menu">
             <li><a href="logout.php?logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp; Logout</a></li>
             </ul>
@@ -101,7 +123,6 @@ $DBcon->close();
                         <th width="5%" style="color: blue;background-color: white; text-align: center;">Comments</th>
                        <th width="5%" style="color: blue;background-color: white; text-align: center;">Action</th>
                        
-                          
                 </tr>
                 </thead>
                 <tbody>
@@ -158,9 +179,10 @@ $DBcon->close();
  ?>
 <div class="row">
   <div class="col-md-5 ">
-     <a href="bookComment.php?book_id=<?php echo $row['id']; ?>" style="text-align: center;">Book</a>
-  </div>
- 
+  <a href="#" data-toggle="modal" data-target="#bookSeat" data-whatever4=<?php echo $row['id']; ?>>
+      Book
+      </a>
+</div>
 </div>
               <?php
                 }elseif($row['bookStatus']==1){
@@ -175,9 +197,8 @@ $DBcon->close();
                 }
              
                echo '</td>';
-               
                  echo '</tr>';
-                         
+                   
                     ?>
     
                 <?php
@@ -189,11 +210,33 @@ $DBcon->close();
   
              
                 </tbody>
+                <tfoot>
+                  <form action="" method="post">
+                <button type="submit" id="btnExport"
+                    name='export' value="Export to Excel"
+                    class="btn btn-info">Export to Excel</button>
+            </form>
+                </tfoot>
             </table>
       </div>
     </div>
     </div>
       <br>
+       <div class="modal fade" id="bookSeat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="H4" style="color: orange;"><center>Seat Details</center></h4>
+    </div>
+    <div class="bookSeatDisplay">
+   
+  </div>
+  
+            
+        </div>
+    </div>
+</div>
     <div class="container" >
       <div class="subscribe">
        
@@ -218,13 +261,44 @@ $DBcon->close();
       <div class="ruler"></div>
     </div>
 
+     
+
       
-     <script src="js/html5shiv.js"></script>
+   <script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/html5shiv.js"></script>
       <script src="js/respond.min.js"></script>
   <script src="js/jquery-1.9.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-  
+    <script type="text/javascript">
+      
+    $('#bookSeat').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal17
+          var recipient = button.data('whatever4') // Extract info from data-* attributes
+          
+          var modal4 = $(this);
+          var dataString4 = 'id=' + recipient;
+       
+            $.ajax({
+                type: "GET",
+                url: "bookSeatNow.php",
+                data: dataString4,
+                cache: false,
+                beforeSend: function (data) {
+                    console.log('Retrieving Data....');
+                },
+                success: function (data) {
+                    console.log(data);
+                    modal4.find('.bookSeatDisplay').html(data);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+
+    })
+</script>
        
   </body>
 </html>
